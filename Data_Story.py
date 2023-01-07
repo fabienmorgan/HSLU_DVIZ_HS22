@@ -95,11 +95,13 @@ fig_horizontal_barchart.update_layout(title={'text': "Comparison of rating score
 fig_horizontal_barchart.update_xaxes(visible=False)
 fig_horizontal_barchart.update_layout(plot_bgcolor="#FFFFFF")
 
-pio.templates.default = "plotly"
+
+### Many Ratings Part ###
 
 def ratings_for_uid(user_id):
     all_user_ratings = all_ratings.query(f'userId == {user_id}').copy()
     all_user_ratings.sort_values(by=['rating_date'], inplace=True)
+    all_user_ratings['rating_date'] = pd.to_datetime(all_user_ratings['rating_date'])
     return all_user_ratings
 
 def apply_grid_bg_design(go):
@@ -112,48 +114,163 @@ def apply_grid_bg_design(go):
     go.update_yaxes(
         showgrid=True, gridwidth=1, gridcolor='lightgrey'
     )
+    
 
-uid = 134596
-all_user_ratings = ratings_for_uid(uid)
+def plot_indicators():
+    all_user_ratings = ratings_for_uid(172357)
 
-fgo = make_subplots(rows=1, cols=2, column_widths=[0.75,0.25], subplot_titles=('Rating Distribution','Histogram'), shared_yaxes=True)
+    t_range = ['2016-06-25 08:00:00','2016-06-25 12:00:00']
+    all_user_ratings = all_user_ratings.query('rating_date >= @t_range[0] and rating_date <= @t_range[1]')
 
-fig1_1 = px.scatter(all_user_ratings,x='rating_date',y='rating', hover_data=['movieId'], color="rating")
-fig1_1.update_traces(
-    marker=dict(size=16, symbol="line-ns", line=dict(width=0, color="DarkSlateGrey")),
-    #marker=dict(size=5, symbol="circle", line=dict(width=0, color="DarkSlateGrey")),
-    selector=dict(mode="markers"),
-)
+    fgo2 = make_subplots(rows=1, cols=2, column_widths=[0.5,0.5], subplot_titles=(f'(1) Rating Bursts','(2) Unnatural Distribution'))
 
-fig1_2 = px.histogram(all_user_ratings,y='rating')
-fig1_2.update_traces(
-    marker_color='darkgrey'
-)
+    fig2_1 = px.scatter(all_user_ratings,x='rating_date',y='rating', range_x=t_range)
+    fig2_2 = px.histogram(all_user_ratings,x='rating')
+
+    fgo2.add_trace(fig2_1['data'][0], row=1, col=1)
+    fgo2.add_trace(fig2_2['data'][0], row=1, col=2)
 
 
-fgo.update_layout(
-    plot_bgcolor= 'rgb(244,247,251)',
-    yaxis = dict(
+
+    fgo2.update_layout(
+        title_text=f'Potential Indicators for Bot Activity (Visualized for User 172357)',
+    )
+
+    fgo2.update_layout(
+        yaxis = dict(
+            tickmode = 'array',
+            tickvals = np.arange(0.5,5.5,0.5)
+        ),
+        bargap = 0.05,
+    )
+
+    fgo2.update_xaxes(
+        range=t_range,
+        row=1,
+        col=1,
+    )
+
+    fgo2.update_xaxes(
         tickmode = 'array',
-        tickvals = np.arange(0.5,5.5,0.5)
-    ),
-    title_text=f'Movie Ratings of User <b>{uid}</b> ({len(all_user_ratings)} Ratings)'
-)
+        tickvals = np.arange(0.5,5.5,0.5),
+        row=1,
+        col=2,
+    )
 
-fgo.update_xaxes(title_text="Time", titlefont_size=12, row = 1, col = 1)
-fgo.update_yaxes(title_text="Rating", titlefont_size=12, row = 1, col = 1)
-fgo.update_xaxes(title_text="Count per Rating Level", titlefont_size=12, row = 1, col = 2)
-
-fgo.update_xaxes(
-    showgrid=True, gridwidth=1, gridcolor='lightgrey'
-)
-fgo.update_yaxes(
-    showgrid=True, gridwidth=1, gridcolor='lightgrey'
-)
+    fgo2.update_xaxes(title_text="Time", titlefont_size=12, row = 1, col = 1)
+    fgo2.update_yaxes(title_text="Rating", titlefont_size=12, row = 1, col = 1)
+    fgo2.update_xaxes(title_text="Rating", titlefont_size=12, row = 1, col = 2)
+    fgo2.update_yaxes(title_text="Count", titlefont_size=12, row = 1, col = 2)
 
 
-fgo.add_trace(fig1_1['data'][0], row=1, col=1)
-fgo.add_trace(fig1_2['data'][0], row=1, col=2)
+    fgo2.update_traces(
+        marker_color='darkgrey',
+    )
+
+    apply_grid_bg_design(fgo2)
+
+    return fgo2
+
+
+def plot_strip_scatter(uid):
+    all_user_ratings = ratings_for_uid(uid)
+
+    fgo = make_subplots(rows=1, cols=2, column_widths=[0.75,0.25], subplot_titles=('Rating Distribution','Histogram'), shared_yaxes=True)
+
+    fig1_1 = px.scatter(all_user_ratings,x='rating_date',y='rating', hover_data=['movieId'], color="rating")
+    fig1_1.update_traces(
+        marker=dict(size=16, symbol="line-ns", line=dict(width=0, color="DarkSlateGrey")),
+        selector=dict(mode="markers"),
+    )
+
+    fig1_2 = px.histogram(all_user_ratings,y='rating')
+    fig1_2.update_traces(
+        marker_color='darkgrey'
+    )
+
+
+    fgo.update_layout(
+        plot_bgcolor= 'rgb(244,247,251)',
+        yaxis = dict(
+            tickmode = 'array',
+            tickvals = np.arange(0.5,5.5,0.5)
+        ),
+        title_text=f'Movie Ratings of User <b>{uid}</b> ({len(all_user_ratings)} Ratings)'
+    )
+
+    fgo.update_xaxes(title_text="Time", titlefont_size=12, row = 1, col = 1)
+    fgo.update_yaxes(title_text="Rating", titlefont_size=12, row = 1, col = 1)
+    fgo.update_xaxes(title_text="Count per Rating Level", titlefont_size=12, row = 1, col = 2)
+
+    fgo.update_xaxes(
+        showgrid=True, gridwidth=1, gridcolor='lightgrey'
+    )
+    fgo.update_yaxes(
+        showgrid=True, gridwidth=1, gridcolor='lightgrey'
+    )
+
+    fgo.add_trace(fig1_1['data'][0], row=1, col=1)
+    fgo.add_trace(fig1_2['data'][0], row=1, col=2)
+
+    return fgo
+
+def plot_freq_polygon(uid,startyear,endyear):
+    all_user_ratings = ratings_for_uid(uid)
+    all_user_ratings['hour'] = all_user_ratings['rating_date'].dt.hour.astype(int)
+
+    fgo = go.Figure()
+
+    color_seq = px.colors.qualitative.D3
+    color_seq_count = 0
+
+    empty_df = pd.DataFrame(index=np.arange(0,24,1))
+    empty_df['count'] = 0
+
+    for i in np.arange(startyear,endyear + 1,1):
+        all_user_ratings_for_year_i = all_user_ratings[all_user_ratings['rating_date'].dt.year == i]
+
+        #This only includes hours present in data
+        hour_freq = all_user_ratings_for_year_i.hour.value_counts().to_frame()
+        hour_freq.rename(columns={'hour':'count'},inplace=True)
+        hour_freq.sort_index(inplace=True)
+
+        #This fills in missing hours with 0
+        hour_freq = hour_freq.combine_first(empty_df)
+        
+        fgo.add_trace(go.Scatter(x=hour_freq.index, y=hour_freq['count'], name=f'Year {i}', line=dict(color=color_seq[color_seq_count]), mode='lines+markers'))
+        color_seq_count += 1
+
+
+    fgo.update_xaxes(
+        title_text="Timeline through the day",
+        titlefont_size=12,
+    )
+    fgo.update_yaxes(
+        title_text="Rating Count for Hour",
+        titlefont_size=12,
+        range=[0,120]
+    )
+    fgo.add_vrect(
+        x0=17,
+        x1=22,
+        line_width=1,
+        fillcolor='black',
+        opacity=0.15,
+        annotation_text='Hours with<br>no activity',
+        annotation_position='top left',
+        annotation=dict(font_size=14, font_color='black'),
+    )
+
+    fgo.update_layout(
+        title_text=f'Favorite Rating Hours for User <b>{uid}</b>',
+        xaxis = dict(
+            tickmode = 'array',
+            tickvals = np.arange(0,24,1)
+        ),
+    )
+    apply_grid_bg_design(fgo)
+    return fgo
+
 
 ### Dash Part ###
 
@@ -163,22 +280,37 @@ html_structure = [
     html.H1(children='Finding Bot Activity in MovieLens Community Ratings'),
 
     html.Div(children='''
-        It is with great pleasure to inform you that Fabien has a small pp.
+        Part 1
     '''),
 
-    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
-        dcc.Graph(figure=fgo,
-        id='chart1',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
-
-    html.Div(children="Below Chart"),
 
     html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
         dcc.Graph(figure=fig_horizontal_barchart,
         id='horizontal_barchart',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ])
+    ]),
+
+    html.Div(children='''
+        Part 2
+    '''),
+
+    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+        dcc.Graph(figure=plot_indicators(),
+        id='plot_indicators',
+        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
+    ]),
+
+    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+        dcc.Graph(figure=plot_strip_scatter(134596),
+        id='plot_strip_scatter',
+        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
+    ]),
+
+    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+        dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
+        id='plot_freq_polygon',
+        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
+    ]),
 ]
 
 app.layout = html.Div(children=html_structure)
