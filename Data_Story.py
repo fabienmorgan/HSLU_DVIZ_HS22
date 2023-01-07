@@ -3,7 +3,6 @@ import pandas as pd
 from dash import Dash, html, dcc
 import plotly.graph_objects as go
 import plotly.express as px
-import plotly.io as pio
 from plotly.subplots import make_subplots
 
 ### Viz Prep ###
@@ -279,34 +278,43 @@ app = Dash(__name__)
 html_structure = [
     html.H1(children='Finding Bot Activity in MovieLens Community Ratings'),
 
-    html.Div(children='''
-        Part 1
+    html.Div(id='project_specification', children=[
+        html.P([
+        'Course: I.BA_DVIZ.H2201 @ University of Applied Sciences Lucerne',html.Br(),
+        'Lecturer: Dr. Teresa Kubacka',html.Br(),
+        'Authors: Fabien Morgan, Flavio Kluser',html.Br(),
+        'Date: 2023-01-08',html.Br(),
+    ]),
+    ]),
+
+    html.H2(children='''
+        Part 1: Empty Profiles
     '''),
 
 
-    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+    html.Div(id='div_horizontal_barchart', className='viz', children=[
         dcc.Graph(figure=fig_horizontal_barchart,
         id='horizontal_barchart',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
     ]),
 
-    html.Div(children='''
-        Part 2
+    html.H2(children='''
+        Part 2: Busy Users
     '''),
 
-    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+    html.Div(id='div_plot_indicators', className='viz', children=[
         dcc.Graph(figure=plot_indicators(),
         id='plot_indicators',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
     ]),
 
-    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+    html.Div(id='div_plot_strip_scatter', className='viz', children=[
         dcc.Graph(figure=plot_strip_scatter(134596),
         id='plot_strip_scatter',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
     ]),
 
-    html.Div(id='wrapper', style={'textAlign': 'center'}, children=[
+    html.Div(id='div_plot_freq_polygon', className='viz', children=[
         dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
         id='plot_freq_polygon',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
