@@ -10,5 +10,3 @@ Visualisation are a powerful way to recognize these patterns and support decisio
 ## Data Source
 
 Movies Dataset: https://www.kaggle.com/datasets/whenamancodes/popular-movies-datasets-58000-movies?resource=download
-
-_Copyright 2022 by Times Person of the year 2006 Fabien Morgan and Small PP Flavio Kluser_
