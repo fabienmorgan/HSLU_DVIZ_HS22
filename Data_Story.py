@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 ratings_single_account = pd.read_csv('Data_Processing/data/ratings_single_account.csv')
 movies_single_account = pd.read_csv('Data_Processing/data/movies_single_account.csv')
 all_ratings = pd.read_csv('Data_Processing/data/all_ratings.csv')
+reduced_ratings = pd.read_csv('Data_Processing/data/reduced_ratings.csv')
 
 #Data transformation
 def return_list_of_binned_ratings(list_of_ratings, ratings):
@@ -98,7 +99,7 @@ fig_horizontal_barchart.update_layout(plot_bgcolor="#FFFFFF")
 ### Many Ratings Part ###
 
 def ratings_for_uid(user_id):
-    all_user_ratings = all_ratings.query(f'userId == {user_id}').copy()
+    all_user_ratings = reduced_ratings.query(f'userId == {user_id}').copy()
     all_user_ratings.sort_values(by=['rating_date'], inplace=True)
     all_user_ratings['rating_date'] = pd.to_datetime(all_user_ratings['rating_date'])
     return all_user_ratings
@@ -171,7 +172,7 @@ def plot_indicators():
     return fgo2
 
 
-def plot_strip_scatter(uid):
+def plot_strip_scatter(uid,time_range):
     all_user_ratings = ratings_for_uid(uid)
 
     fgo = make_subplots(rows=1, cols=2, column_widths=[0.75,0.25], subplot_titles=('Rating Distribution','Histogram'), shared_yaxes=True)
@@ -186,7 +187,49 @@ def plot_strip_scatter(uid):
     fig1_2.update_traces(
         marker_color='darkgrey'
     )
+    
+    fgo.add_trace(go.Heatmap(
+    z=[np.arange(0.0,5.5,0.5)],
+    colorscale=[
+        [0, "#0f0787"],
+        [0.1, "#0f0787"],
 
+        [0.1, "#5011a4"],
+        [0.2, "#5011a4"],
+
+        [0.2, "#790eac"],
+        [0.3, "#790eac"],
+
+        [0.3, "#a833aa"],
+        [0.4, "#a833aa"],
+
+        [0.4, "#be3e8a"],
+        [0.5, "#be3e8a"],
+
+        [0.5, "#d8576b"],
+        [0.6, "#d8576b"],
+
+        [0.6, "#ed7953"],
+        [0.7, "#ed7953"],
+
+        [0.7, "#fba342"],
+        [0.8, "#fba342"],
+
+        [0.8, "#fdcb2d"],
+        [0.9, "#fdcb2d"],
+
+        [0.9, "#f1f421"],
+        [1.0, "#f1f421"]
+
+    ],
+    
+    colorbar=dict(
+        ticks="outside",
+        ticktext= [str(x) for x in np.arange(0.5,5.5,0.5)],
+        tickvals=np.arange(0.25,5.25,0.5),
+    )  
+    ))
+    
 
     fgo.update_layout(
         plot_bgcolor= 'rgb(244,247,251)',
@@ -194,7 +237,9 @@ def plot_strip_scatter(uid):
             tickmode = 'array',
             tickvals = np.arange(0.5,5.5,0.5)
         ),
-        title_text=f'Movie Ratings of User <b>{uid}</b> ({len(all_user_ratings)} Ratings)'
+        title_text=f'Movie Ratings of User <b>{uid}</b> ({len(all_user_ratings)} Ratings)',
+        coloraxis_showscale=False,
+        xaxis_range=time_range,
     )
 
     fgo.update_xaxes(title_text="Time", titlefont_size=12, row = 1, col = 1)
@@ -205,7 +250,7 @@ def plot_strip_scatter(uid):
         showgrid=True, gridwidth=1, gridcolor='lightgrey'
     )
     fgo.update_yaxes(
-        showgrid=True, gridwidth=1, gridcolor='lightgrey'
+        showgrid=True, gridwidth=1, gridcolor='lightgrey', range=[0,5.5]
     )
 
     fgo.add_trace(fig1_1['data'][0], row=1, col=1)
@@ -329,9 +374,15 @@ html_structure = [
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
     ]),
 
-    html.Div(id='div_plot_strip_scatter', className='viz', children=[
-        dcc.Graph(figure=plot_strip_scatter(134596),
-        id='plot_strip_scatter',
+    html.Div(id='div_plot_strip_scatter_134596', className='viz', children=[
+        dcc.Graph(figure=plot_strip_scatter(134596,['2009-01-01','2019-01-01']),
+        id='plot_strip_scatter_134596',
+        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
+    ]),
+
+    html.Div(id='div_plot_strip_scatter_123100', className='viz', children=[
+        dcc.Graph(figure=plot_strip_scatter(123100,['2015-07-01','2019-01-01']),
+        id='plot_strip_scatter_123100',
         style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
     ]),
 
