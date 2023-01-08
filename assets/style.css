@@ -1,7 +1,18 @@
-h1, h2, h3, h4, h5, h6, p {
-    font-family: Helvetica, sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+p {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 13pt;
+    font-style: normal;
 }
 
 .viz {
     text-align: center;
+}
+
+.citation p{
+    font-size: 10pt;
+    font-style: italic;
 }
