@@ -1,3 +1,9 @@
+#center_content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -10,6 +16,8 @@ p {
 
 .viz {
     text-align: center;
+    display: inline-block;
+    margin: 0 auto;
 }
 
 .citation p{

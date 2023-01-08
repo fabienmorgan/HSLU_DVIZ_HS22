@@ -321,77 +321,75 @@ def plot_freq_polygon(uid,startyear,endyear):
 app = Dash(__name__)
 
 html_structure = [
-    html.H1(children='Finding Bot Activity in MovieLens Community Ratings'),
+    html.Div(id='center_content', children=[
+        html.H1(children='Finding Bot Activity in MovieLens Community Ratings'),
 
-    html.Div(id='project_specification', children=[
+        html.Div(id='project_specification', children=[
+            html.P([
+            'Course: I.BA_DVIZ.H2201 @ University of Applied Sciences Lucerne',html.Br(),
+            'Lecturer: Dr. Teresa Kubacka',html.Br(),
+            'Authors: Fabien Morgan, Flavio Kluser',html.Br(),
+            'Date: 2023-01-08',html.Br(),
+        ]),
+        ]),
+
+        html.H2(children='''
+            Part 1: Empty Profiles
+        '''),
+
+
+        html.Div(id='div_horizontal_barchart', className='viz', children=[
+            dcc.Graph(figure=fig_horizontal_barchart,
+            id='horizontal_barchart')
+        ]),
+
+        html.H2(children='''
+            Part 2: Busy Users
+        '''),
+
         html.P([
-        'Course: I.BA_DVIZ.H2201 @ University of Applied Sciences Lucerne',html.Br(),
-        'Lecturer: Dr. Teresa Kubacka',html.Br(),
-        'Authors: Fabien Morgan, Flavio Kluser',html.Br(),
-        'Date: 2023-01-08',html.Br(),
-    ]),
-    ]),
 
-    html.H2(children='''
-        Part 1: Empty Profiles
-    '''),
+    'It is not uncommon to have very enthusiastic users. There will always be a small fraction of people with significantly more interactions than the average person. However, we do have some users with interesting rating activity.',html.Br(),html.Br(),
 
+    'The most active user has rated over 23\'000 movies in less than 3 years. We don\'t want to be judgmental, but this is a bit too much, even for a very enthusiastic movie connoisseur. The average movie length is around 90 minutes. [1] Under the assumption that this user was legit and watched all movies in his 3-year rating period, he would have spent about 32 hours a day watching movies.',html.Br(),html.Br(),
 
-    html.Div(id='div_horizontal_barchart', className='viz', children=[
-        dcc.Graph(figure=fig_horizontal_barchart,
-        id='horizontal_barchart',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
+    'Unlike detecting suspect activity in empty profiles, we have a lot more data to work with here. This allows us to get an insight into the rating patterns of individual users.',html.Br(),html.Br(),
 
-    html.H2(children='''
-        Part 2: Busy Users
-    '''),
+    'For most of the Top 20 most active users, there are obvious signs indicating bot activity. One phenomenon a lot of them share is \'Rating Bursts\', short timeframes with hundreds of ratings in minutes. Another common pattern is a very even, unnatural distribution of ratings.',html.Br(),html.Br(),
 
-    html.P([
-
-'It is not uncommon to have very enthusiastic users. There will always be a small fraction of people with significantly more interactions than the average person. However, we do have some users with interesting rating activity.',html.Br(),html.Br(),
-
-'The most active user has rated over 23\'000 movies in less than 3 years. We don\'t want to be judgmental, but this is a bit too much, even for a very enthusiastic movie connoisseur. The average movie length is around 90 minutes. [1] Under the assumption that this user was legit and watched all movies in his 3-year rating period, he would have spent about 32 hours a day watching movies.',html.Br(),html.Br(),
-
-'Unlike detecting suspect activity in empty profiles, we have a lot more data to work with here. This allows us to get an insight into the rating patterns of individual users.',html.Br(),html.Br(),
-
-'For most of the Top 20 most active users, there are obvious signs indicating bot activity. One phenomenon a lot of them share is \'Rating Bursts\', short timeframes with hundreds of ratings in minutes. Another common pattern is a very even, unnatural distribution of ratings.',html.Br(),html.Br(),
-
-'We are more interested in the ones who deviate from obvious bot patterns - heavy users with seemingly legitimate rating activity.',html.Br(),html.Br(),
+    'We are more interested in the ones who deviate from obvious bot patterns - heavy users with seemingly legitimate rating activity.',html.Br(),html.Br(),
 
 
-    ]),
+        ]),
 
-    html.Div(className='citation', children=[
-        html.P([
-           '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
-    ]),
-    ]),
+        html.Div(className='citation', children=[
+            html.P([
+            '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
+        ]),
+        ]),
 
-    html.Div(id='div_plot_indicators', className='viz', children=[
-        dcc.Graph(figure=plot_indicators(),
-        id='plot_indicators',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
+        html.Div(id='div_plot_indicators', className='viz', children=[
+            dcc.Graph(figure=plot_indicators(),
+            id='plot_indicators')
+        ]),
 
-    html.Div(id='div_plot_strip_scatter_134596', className='viz', children=[
-        dcc.Graph(figure=plot_strip_scatter(134596,['2009-01-01','2019-01-01']),
-        id='plot_strip_scatter_134596',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
+        html.Div(id='div_plot_strip_scatter_134596', className='viz', children=[
+            dcc.Graph(figure=plot_strip_scatter(134596,['2009-01-01','2019-01-01']),
+            id='plot_strip_scatter_134596')
+        ]),
 
-    html.Div(id='div_plot_strip_scatter_123100', className='viz', children=[
-        dcc.Graph(figure=plot_strip_scatter(123100,['2015-07-01','2019-01-01']),
-        id='plot_strip_scatter_123100',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
+        html.Div(id='div_plot_strip_scatter_123100', className='viz', children=[
+            dcc.Graph(figure=plot_strip_scatter(123100,['2015-07-01','2019-01-01']),
+            id='plot_strip_scatter_123100')
+        ]),
 
-    html.Div(id='div_plot_freq_polygon', className='viz', children=[
-        dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
-        id='plot_freq_polygon',
-        style={"display": "inline-block", "margin": "0 auto", "width": "80%"})
-    ]),
+        html.Div(id='div_plot_freq_polygon', className='viz', children=[
+            dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
+            id='plot_freq_polygon')
+        ]),
+    ])
 ]
+
 
 app.layout = html.Div(children=html_structure)
 
