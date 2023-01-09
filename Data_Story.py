@@ -79,7 +79,7 @@ def build_horizontal_stacked_barchart():
     create_stacked_barchart_subplot(fig, threshold, descriont_multiple_ratings, binned_ratings_without_single_accounts_percentage, 1, 2, colors, list_of_ratings, False)
 
     fig.update_layout(barmode='stack')
-    fig.update_layout(title={'text': "Comparison of rating score from users with only one ratign compared to score from users with multiple ratings"})
+    fig.update_layout(title={'text': "Comparison of rating score from users with only one rating compared to score from users with multiple ratings"})
     fig.update_xaxes(visible=False)
     fig.update_layout(plot_bgcolor="#FFFFFF")
 
@@ -102,7 +102,7 @@ def build_columnLineTimlineChart_and_BarChart():
             legendgroup='1',
             legendgrouptitle_text="Comparison chart:",
             hovertemplate="Year: %{x}<br>" +
-                            "Users with one rating amount: %{y:.0f}/100" +
+                            "Amount of users with one rating: %{y:.0f}/100" +
                             "<extra></extra>"
         )
 
@@ -462,7 +462,7 @@ html_structure = [
            'the difference between the yearly growth in percentage of ratings from users with only one rating, subtracted by the yearly growth of all ratings.', html.Br(), html.Br()
         ]),
 
-        html.Div(id='div_columnLineTimlineChart_and_BarChart', className='viz', children=[
+        html.Div(id='div_columnLineTimlineChart_and_BarChart', className='viz_column_line_timeline_and_barchart', children=[
             dcc.Graph(figure=build_columnLineTimlineChart_and_BarChart(),
             id='columnLineTimlineChart_and_BarChart')
         ]),
