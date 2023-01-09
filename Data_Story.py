@@ -359,13 +359,12 @@ html_structure = [
 
     'We are more interested in the ones who deviate from obvious bot patterns - heavy users with seemingly legitimate rating activity.',html.Br(),html.Br(),
 
-
         ]),
 
-        html.Div(className='citation', children=[
-            html.P([
-            '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
-        ]),
+        html.P([
+
+    'Our hypothesis is, that (1) Rating Bursts and (2) Unnatural Distributions are the main indicators for bot activity. We searched for a user to showcase this pattern. This example shows a data burst of user 172357 with a duration of about 2 hours with the corresponding histogram. The burst consists of 1005 ratings.',html.Br(),html.Br(),
+
         ]),
 
         html.Div(id='div_plot_indicators', className='viz', children=[
@@ -373,9 +372,35 @@ html_structure = [
             id='plot_indicators')
         ]),
 
+        html.P([
+
+    'In the case of (1) Rating Bursts, they are easy to identify. We define Rating Bursts as unusually high amounts of activity in contained timeframes, ranging from seconds to hours with distinct intervals with no activity. The distribution of rating scores is irrelevant to this criteria.',html.Br(),html.Br(),
+
+    'Despite our initial assumption that (2) Unnatural Distribution would be fairly easy to identify, we found that this may not be the case. There is no consensus about what "unnatural" means. We presumed that natural distributions would come in form of a normal curve. However, this is only an assumption, and we are biased by our own rating behavior. In the case of user 172357, the distribution could be legitimate and indicate that the user tends to rate movies in a polarized way.',html.Br(),html.Br(),
+
+        ]),
+
+        html.H3(children='''
+            User 134596
+        '''),
+
+        html.P([
+
+    'While we were plotting Rating Bursts for the most active users, we stumbled upon a pattern that differed from the rest. User 134596 was intriguing at first sight. Despite his high number of Ratings, his activity seems legitimate at first glance.',html.Br(),html.Br(),
+
+        ]),
+
+
         html.Div(id='div_plot_strip_scatter_134596', className='viz', children=[
             dcc.Graph(figure=plot_strip_scatter(134596,['2009-01-01','2019-01-01']),
             id='plot_strip_scatter_134596')
+        ]),
+
+        html.P([
+    'There are no rating bursts and continuous activity over almost 10 years. The rating distribution does not show any signs of polarization.',html.Br(),html.Br(),
+
+    'For comparison we plotted the same thing for the most active user (yes, the one with 23k Ratings) to demonstrate the differences. Note, that we used a different time period here, as the user only started his rating activity late 2015.',html.Br(),html.Br(),
+    
         ]),
 
         html.Div(id='div_plot_strip_scatter_123100', className='viz', children=[
@@ -386,6 +411,12 @@ html_structure = [
         html.Div(id='div_plot_freq_polygon', className='viz', children=[
             dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
             id='plot_freq_polygon')
+        ]),
+
+        html.Div(className='citation', children=[
+            html.P([
+            '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
+        ]),
         ]),
     ])
 ]
