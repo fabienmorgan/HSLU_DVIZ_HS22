@@ -472,7 +472,7 @@ html_structure = [
            'The previous graph definitively gave us interesting insights, but it wasn\'t conclusive enough to neither prove nor disprove our theory. Because of that, ' +
            'we took further investigation into the timeline of when those ratings were submitted. As we thought, botted ratings and manipulation is a more recent activity that maybe started ' +
            '5 to 10 years ago. To get prove about our thought, we searched for  proof.  We looked into google trends [1], which collects data about how many searches in Google have the given search term. ' +
-           'We have tried different terms and got the best data with the search term "fake rating". Obviously, this term is wide and is not limited to the website movieLens ' +
+           'We have tried different terms and got the best data with the search term "fake rating". Obviously, this term is wide and is not limited to the website MovieLens ' +
            'and is neither limited to movie ratings, but it was the narrowest term that had enough data to show a trend. The data from Google trends started at 2004, ' +
            'but the values before August 2010 are not conclusive enough because there are a lot of short term spikes in single months where the month before and after goes to 0. ' +
            'We decided to show the trend in a bar chart grouped by years, so we took the year from 2011 to 2017 which is the last year the MovieLens data ranges from the first ' +
