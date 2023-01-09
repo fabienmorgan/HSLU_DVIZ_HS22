@@ -6,7 +6,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 ### Viz Prep ###
-reduced_ratings = pd.read_csv('Data_Processing/data/reduced_ratings.csv')
+reduced_ratings = pd.read_csv('Data_Processing/data/data_visualizations/reduced_ratings.csv')
 
 #Chart preperation
 def calcuate_position_outside_annotations(dict_of_stacked_elements, list_of_ratings, threshold):
