@@ -399,7 +399,7 @@ html_structure = [
         html.P([
     'There are no rating bursts and continuous activity over almost 10 years. The rating distribution does not show any signs of polarization.',html.Br(),html.Br(),
 
-    'For comparison we plotted the same thing for the most active user (yes, the one with 23k Ratings) to demonstrate the differences. Note, that we used a different time period here, as the user only started his rating activity late 2015.',html.Br(),html.Br(),
+    'For comparison we plotted the same chart for the most active user (yes, the one with 23k Ratings) to demonstrate the differences. Note, that we used a different time period here, as the user only started his rating activity late 2015.',html.Br(),html.Br(),
     
         ]),
 
@@ -408,16 +408,36 @@ html_structure = [
             id='plot_strip_scatter_123100')
         ]),
 
+        html.P([
+    'The previous visualization of User 134596 left us with more questions than answers. There are no indications to justify doubt in the legitimacy of this user. It feels like finding the needle in the haystack. Maybe there is no needle and User 134596 is in fact human. But we are not done yet.',html.Br(),html.Br(),
+
+    'Every Rating has a timestamp. With thousands of ratings, this metadata can reveal a lot of insight into the user\'s life. In the original dataset, the timestamps are in Unix time. Even if the server moved to a different time zone, the data would still be consistent.',html.Br(),html.Br(),
+    
+    'We created a histogram of the timestamps. As expected, there is no anomaly in minutes and seconds. Ratings are evenly distributed over minutes and seconds. However, the hours tell a different story. There is a distinct pattern of activity over the day. There are even some resting hours with no activity at all. We decided to compare this histogram over years. There is still a very visible correlation between favorite rating hours over years.', html.Br(),html.Br(),
+        ]),
+
         html.Div(id='div_plot_freq_polygon', className='viz', children=[
             dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
             id='plot_freq_polygon')
         ]),
+
+        html.P([
+    'The consistency of hours without any ratings is remarkable. If User 134596 is a human, we can only applaud this disciplined sleep schedule. The decrease in activity from 3UTC to 11UTC could indicate a workday, however, this is pure speculation.',html.Br(),html.Br(),
+
+    'In Conclusion, we found no evidence to justify doubt in the legitimacy of User 134596. If this User actually turns out to be a bot, we can only admire the creators dedication and effort to run this account for over ten years. Of course, there are still more sophisticated ways to detect irregularities we haven\'t covered yet. In summary, our approach worked well to identify anomalies for most busy user accounts.',html.Br(),html.Br(),
+        ]),
+
+        html.H2(children='''
+            Main Conclusion
+        '''),
 
         html.Div(className='citation', children=[
             html.P([
             '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
         ]),
         ]),
+
+
     ])
 ]
 
