@@ -79,7 +79,7 @@ def build_horizontal_stacked_barchart():
     create_stacked_barchart_subplot(fig, threshold, descriont_multiple_ratings, binned_ratings_without_single_accounts_percentage, 1, 2, colors, list_of_ratings, False)
 
     fig.update_layout(barmode='stack')
-    fig.update_layout(title={'text': "Comparison of rating score from users with only one ratign compared to score from users with multiple ratings"})
+    fig.update_layout(title={'text': "Comparison of rating score from users with only one rating compared to score from users with multiple ratings"})
     fig.update_xaxes(visible=False)
     fig.update_layout(plot_bgcolor="#FFFFFF")
 
@@ -102,7 +102,7 @@ def build_columnLineTimlineChart_and_BarChart():
             legendgroup='1',
             legendgrouptitle_text="Comparison chart:",
             hovertemplate="Year: %{x}<br>" +
-                            "Users with one rating amount: %{y:.0f}/100" +
+                            "Amount of users with one rating: %{y:.0f}/100" +
                             "<extra></extra>"
         )
 
@@ -413,6 +413,26 @@ html_structure = [
         ]),
 
         html.H2(children='''
+            Introduction:
+'''),
+        html.P([
+            'There is no doubt that our consumer behavior changed drastically over the last decade. Let it be for restaurants, movie theaters or online shops. ' +
+            'One factor that has significantly impacted decision-making for many consumers is the use of online reviews. It is undeniable that online reviews play ' +
+            'a significant role in the purchasing habits of many people. Given the high importance of online ratings, it doesn\'t come as a surprise that they are ' +
+            'an attractive target for manipulation. ', html.Br(),
+            'We have chosen a Dataset with Ratings for Movies. Public reviews and critiques of movies have existed long before the Information Age. However, Community ' +
+            'Ratings on pages like IMDB or TMDB allow everyone with an internet connection to rate movies. Rating Platforms allow users to decide in a matter of seconds ' +
+            'if they want to watch a movie or not.', html.Br(),
+            'Our main goal is to search for malicious rating activities for movies. If they exist, we want to analyze their characteristics and find potential motivations.', html.Br(),
+            'To analyze this suspicious non humanly generated activity, so-called bot rating activities, we used a dataset from a site called movieLens. This website suggests ' +
+            'movies to its users. It has a feature which allows users to rate the movies they have watched.', html.Br(),
+            'The dataset contains all their movies, ratings and many more information. We focused us most on the rating data to find those bot activities. ', html.Br(),
+            'The rating data contains the user ID, the score of the rating, the timestamp of when the rating was submitted and which movie the rating belongs to. '+
+            'Each user of movieLens can rate a movie with a score between 0.5 and 5.0 in steps of 0.5 points. This means that each user can rate a movie between a ' +
+            'range of 10 scores.', html.Br(), html.Br()
+        ]),
+
+        html.H2(children='''
             Part 1: Users with one rating theory
         '''),
 
@@ -462,7 +482,7 @@ html_structure = [
            'the difference between the yearly growth in percentage of ratings from users with only one rating, subtracted by the yearly growth of all ratings.', html.Br(), html.Br()
         ]),
 
-        html.Div(id='div_columnLineTimlineChart_and_BarChart', className='viz', children=[
+        html.Div(id='div_columnLineTimlineChart_and_BarChart', className='viz_column_line_timeline_and_barchart', children=[
             dcc.Graph(figure=build_columnLineTimlineChart_and_BarChart(),
             id='columnLineTimlineChart_and_BarChart')
         ]),
@@ -477,7 +497,7 @@ html_structure = [
             'were no significant deviation on patterns in the data, that proved our theory. The score was on average better but not in a significant way and all ratings from users ' +
             'with only one rating was only made 0.02% of all ratings. Furthermore, there was no significant growth over the year and the only outlier in our analysis was a decline of growth ' +
             'of those ratings compared to the growth of all ratings in 2015.', html.Br(),
-            'This means that there is no indication, that users with only one rating on the site movieLens are non humanly generated activity.'
+            'This means that there is no indication, that users with only one rating on the site movieLens are non humanly generated activity.', html.Br(), html.Br()
         ]),
 
         html.H2(children='''
