@@ -424,11 +424,11 @@ html_structure = [
             'Ratings on pages like IMDB or TMDB allow everyone with an internet connection to rate movies. Rating Platforms allow users to decide in a matter of seconds ' +
             'if they want to watch a movie or not.', html.Br(), html.Br(),
             'Our main goal is to search for malicious rating activities for movies. If they exist, we want to analyze their characteristics and find potential motivations.', html.Br(), html.Br(),
-            'To analyze this suspicious non humanly generated activity, so-called bot rating activities, we used a dataset from a site called movieLens. This website suggests ' +
+            'To analyze this suspicious non humanly generated activity, so-called bot rating activities, we used a dataset from a site called MovieLens. This website suggests ' +
             'movies to its users. It has a feature which allows users to rate the movies they have watched.', html.Br(), html.Br(),
             'The dataset contains all their movies, ratings and many more information. We focused us most on the rating data to find those bot activities. ', html.Br(), html.Br(),
             'The rating data contains the user ID, the score of the rating, the timestamp of when the rating was submitted and which movie the rating belongs to. '+
-            'Each user of movieLens can rate a movie with a score between 0.5 and 5.0 in steps of 0.5 points. This means that each user can rate a movie between a ' +
+            'Each user of MovieLens can rate a movie with a score between 0.5 and 5.0 in steps of 0.5 points. This means that each user can rate a movie between a ' +
             'range of 10 scores.', html.Br(), html.Br()
         ]),
 
@@ -443,10 +443,10 @@ html_structure = [
             'With that logic, we created our first theory. Our theory was: "Users which rated only one movie are manly bots".', html.Br(), html.Br(),
             'To prove this theory, our goal was to analyze all the data of users with one rating.', html.Br(),
             'At first, we filtered out all the ratings, which came from users with only one rating. We were surprised by the result. Of the over 27 million ratings in total, ' +
-            'only 5\'620 of ratings came from users which only left one rating. This means in the worst case scenario, only 0.02% of the ratings on movieLens could potentially be ' +
+            'only 5\'620 of ratings came from users which only left one rating. This means in the worst case scenario, only 0.02% of the ratings on MovieLens could potentially be ' +
             'from bot activity according to our theory.', html.Br(),
             'This result already made us skeptic and there were two options on why there were so few ratings from users with only one rating. Firstly, our theory turns out to be true, ' +
-            'and the site could have a low amount of bots. This would mean that the bot activity on the site movieLens doesn\'t have a profound impact on the ratings, ' +
+            'and the site could have a low amount of bots. This would mean that the bot activity on the site MovieLens doesn\'t have a profound impact on the ratings, ' +
             'which would be a great conclusion. Secondly, it could mean that our theory was completely wrong and there is no correlation between accounts with only one rating and bot activity.', html.Br(),
             'So the next step to prove or disprove our theory, we looked deeper into the data and compared the rating scores of the ratings from the users with one rating ' +
             'to the users with multiple ratings. We expected to find more ratings at both ends of the spectrum, and fewer ratings in the middle of the spectrum for ratings ' +
@@ -475,7 +475,7 @@ html_structure = [
            'We have tried different terms and got the best data with the search term "fake rating". Obviously, this term is wide and is not limited to the website movieLens ' +
            'and is neither limited to movie ratings, but it was the narrowest term that had enough data to show a trend. The data from Google trends started at 2004, ' +
            'but the values before August 2010 are not conclusive enough because there are a lot of short term spikes in single months where the month before and after goes to 0. ' +
-           'We decided to show the trend in a bar chart grouped by years, so we took the year from 2011 to 2017 which is the last year the movieLens data ranges from the first ' +
+           'We decided to show the trend in a bar chart grouped by years, so we took the year from 2011 to 2017 which is the last year the MovieLens data ranges from the first ' +
            'day to the last of the year.', html.Br(),
            'Grouping it by years mitigates the variations which it has from the small size of the dataset.', html.Br(), html.Br(),
            'In addition to the Google trends data, we looked into the growth of the ratings from users with only one rating. To reduce the complexity of the graph, we decided to plot ' +
@@ -497,7 +497,7 @@ html_structure = [
             'were no significant deviation on patterns in the data, that proved our theory. The score was on average better but not in a significant way and all ratings from users ' +
             'with only one rating was only made 0.02% of all ratings. Furthermore, there was no significant growth over the year and the only outlier in our analysis was a decline of growth ' +
             'of those ratings compared to the growth of all ratings in 2015.', html.Br(),
-            'This means that there is no indication, that users with only one rating on the site movieLens are non humanly generated activity.', html.Br(), html.Br()
+            'This means that there is no indication, that users with only one rating on the site MovieLens are non humanly generated activity.', html.Br(), html.Br()
         ]),
 
         html.H2(children='''
