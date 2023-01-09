@@ -2,11 +2,16 @@
 
 Data Visualization for the course I.BA_DVIZ.H2201 @ HSLU
 
-## TLDR
+This course involves a Data Story / Dashboard project about a topic of free choice.
 
-Our search focuses on patterns that could indicate abnormal use(e.g. botting) of the rating platform.
+## Finding Bot Activity in MovieLens Community Ratings
+
+Our search focuses on patterns that could indicate anomalous activity (e.g. botting) in movie ratings.
 Visualisation are a powerful way to recognize these patterns and support decision making.
+
+## Instructions
+tbd
 
 ## Data Source
 
-Movies Dataset: https://www.kaggle.com/datasets/whenamancodes/popular-movies-datasets-58000-movies?resource=download
+Movie Rating Dataset: https://www.kaggle.com/datasets/whenamancodes/popular-movies-datasets-58000-movies?resource=download
