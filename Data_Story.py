@@ -6,35 +6,9 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 ### Viz Prep ###
-
-ratings_single_account = pd.read_csv('Data_Processing/data/ratings_single_account.csv')
-movies_single_account = pd.read_csv('Data_Processing/data/movies_single_account.csv')
-all_ratings = pd.read_csv('Data_Processing/data/all_ratings.csv')
 reduced_ratings = pd.read_csv('Data_Processing/data/reduced_ratings.csv')
 
-#Data transformation
-def return_list_of_binned_ratings(list_of_ratings, ratings):
-    ratings_for_movie_binned_lst = len(list_of_ratings) * [0]
-    
-    for rating in ratings:
-        index = list_of_ratings.index(rating)
-        ratings_for_movie_binned_lst[index] += 1
-
-    return dict(zip(list_of_ratings,ratings_for_movie_binned_lst))
-
-common = all_ratings.merge(ratings_single_account,on=['rating_id'])
-ratings_without_single_account = all_ratings[~all_ratings.rating_id.isin(common.rating_id)]
-
-list_of_ratings = [5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5]  
-list_of_ratings = list_of_ratings[::-1]
-
-binned_ratings_single_account = return_list_of_binned_ratings(list_of_ratings, ratings_single_account['rating'])
-binned_ratings_without_single_accounts = return_list_of_binned_ratings(list_of_ratings, ratings_without_single_account['rating'])
-
-binned_ratings_single_account_percentage = {k: v / len(ratings_single_account) for k, v in binned_ratings_single_account.items()}
-binned_ratings_without_single_accounts_percentage = {k: v / len(ratings_without_single_account) for k, v in binned_ratings_without_single_accounts.items()}
-
-#Horizontal Barchart
+#Chart preperation
 def calcuate_position_outside_annotations(dict_of_stacked_elements, list_of_ratings, threshold):
     sum = 0
     dict_position_to_small_ratings = {}
@@ -46,6 +20,7 @@ def calcuate_position_outside_annotations(dict_of_stacked_elements, list_of_rati
             sum += dict_of_stacked_elements[rating]
 
     return dict_position_to_small_ratings
+
 
 def create_stacked_barchart_subplot(figure, threshold, description, list_with_content, position_x, position_y, colors, list_of_ratings, text_over):
     if text_over:
@@ -66,7 +41,9 @@ def create_stacked_barchart_subplot(figure, threshold, description, list_with_co
                         marker_color=colors[i],
                         textposition=text,
                         text=rating,
-                        insidetextanchor='middle')
+                        insidetextanchor='middle',
+                        hovertemplate='Percentage of score '+ str(rating) +': '+ str(round(list_with_content[rating] * 100, 2)) +'%' +
+                        "<extra></extra>")
         traces.append(trace)
 
     position_to_small_content = calcuate_position_outside_annotations(list_with_content, list_of_ratings, threshold)
@@ -80,21 +57,123 @@ def create_stacked_barchart_subplot(figure, threshold, description, list_with_co
     
     figure.add_traces(traces, position_y, position_x)
 
-#Max threshold that makes sense
-#threshold = 0.0312
-threshold = 0.02
-descripion_only_one_ratings = ['Score distribution from <br> Users with only one rating']
-descriont_multiple_ratings = ['Score distribution from <br> Users with multiple ratings']
-colors = px.colors.sequential.Viridis
-fig_horizontal_barchart = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing = 0.00)
-create_stacked_barchart_subplot(fig_horizontal_barchart, threshold, descripion_only_one_ratings, binned_ratings_single_account_percentage, 1, 1, colors, list_of_ratings, True)
-create_stacked_barchart_subplot(fig_horizontal_barchart, threshold, descriont_multiple_ratings, binned_ratings_without_single_accounts_percentage, 1, 2, colors, list_of_ratings, False)
+#Create Horizontally stacked barchart
+def build_horizontal_stacked_barchart():
+    list_of_ratings = [5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5]  
+    list_of_ratings = list_of_ratings[::-1]
 
-fig_horizontal_barchart.update_layout(barmode='stack')
-fig_horizontal_barchart.update_layout(title={'text': "Comparison of rating score from users with only one ratign compared to score from users with multiple ratings"})
-fig_horizontal_barchart.update_xaxes(visible=False)
-fig_horizontal_barchart.update_layout(plot_bgcolor="#FFFFFF")
+    binned_ratings_single_account_percentage = pd.read_csv('Data_Processing/data/data_visualizations/horizontal_stacked_barchart_single_rating.csv').to_dict()
+    binned_ratings_without_single_accounts_percentage = pd.read_csv('Data_Processing/data/data_visualizations/horizontal_stacked_barchart_multi_rating.csv').to_dict()
 
+    binned_ratings_single_account_percentage = dict(zip(list(binned_ratings_single_account_percentage['score'].values()), list(binned_ratings_single_account_percentage['value'].values())))
+    binned_ratings_without_single_accounts_percentage = dict(zip(list(binned_ratings_without_single_accounts_percentage['score'].values()), list(binned_ratings_without_single_accounts_percentage['value'].values())))
+
+    #Max threshold that makes sense
+    #threshold = 0.0312
+    threshold = 0.02
+    descripion_only_one_ratings = ['Score distribution from <br> Users with only one rating']
+    descriont_multiple_ratings = ['Score distribution from <br> Users with multiple ratings']
+    colors = px.colors.sequential.Viridis
+    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing = 0.00)
+    create_stacked_barchart_subplot(fig, threshold, descripion_only_one_ratings, binned_ratings_single_account_percentage, 1, 1, colors, list_of_ratings, True)
+    create_stacked_barchart_subplot(fig, threshold, descriont_multiple_ratings, binned_ratings_without_single_accounts_percentage, 1, 2, colors, list_of_ratings, False)
+
+    fig.update_layout(barmode='stack')
+    fig.update_layout(title={'text': "Comparison of rating score from users with only one ratign compared to score from users with multiple ratings"})
+    fig.update_xaxes(visible=False)
+    fig.update_layout(plot_bgcolor="#FFFFFF")
+
+    return fig
+
+def build_columnLineTimlineChart_and_BarChart():
+    single_user_ratings_binned_in_years_reduced_to_hundred = pd.read_csv('Data_Processing/data/data_visualizations/columnLineTimeline_single_user_ratings.csv')
+    google_trends_fake_rating_years_reduced_to_hundered = pd.read_csv('Data_Processing/data/data_visualizations/columnLineTimeline_google_trends.csv')
+    growth_user_single_ratings_compared_all_ratings = pd.read_csv('Data_Processing/data/data_visualizations/bar_chart_growth.csv')
+
+    figure = make_subplots(rows=1, cols=2,
+                        subplot_titles=("Comparison of rating amount from users <br> with only one rating to search traffic of the term<br> \"fake rating\" between the years 20011 and 2017",
+                                        "Yearly growth of ratings from users with only one rating<br> in relation to the growth of all ratings"), horizontal_spacing=0.2)
+    colors = px.colors.sequential.Viridis
+
+    trace_bar_trends = go.Bar(
+            x=single_user_ratings_binned_in_years_reduced_to_hundred['year'],
+            y=single_user_ratings_binned_in_years_reduced_to_hundred['rating_amount'],
+            marker_color=colors[3], name='Rating amount',
+            legendgroup='1',
+            legendgrouptitle_text="Comparison chart:",
+            hovertemplate="Year: %{x}<br>" +
+                            "Users with one rating amount: %{y:.0f}/100" +
+                            "<extra></extra>"
+        )
+
+    trace_scatter_google_trends = go.Scatter(
+            x=google_trends_fake_rating_years_reduced_to_hundered['year'],
+            y=google_trends_fake_rating_years_reduced_to_hundered['rating_amount'],
+            line=dict(color=colors[8], width=2), name='Google trends<br>traffic', legendgroup='1',
+            hovertemplate="Year: %{x}<br>" +
+                            "Search traffic: %{y:.0f}/100"+
+                            "<extra></extra>"
+        )
+
+    figure.add_traces([trace_bar_trends, trace_scatter_google_trends], 1, 1)
+
+    figure.add_traces(go.Bar(x=growth_user_single_ratings_compared_all_ratings['year'],
+                            y=growth_user_single_ratings_compared_all_ratings['growth'],
+                            marker_color=colors[5], name='Growth in<br> percentage',
+                            legendgroup='2', legendgrouptitle_text="Growth chart:",
+                            hovertemplate="Year: %{x}<br>" +
+                            "Growth in relation: %{y:.0f}%"+
+                            "<extra></extra>"), 1, 2)
+
+    figure.add_hline(y=20, line_dash="dot", row=1, col=1, line=dict(color='black'))
+    figure.add_hline(y=40, line_dash="dot", row=1, col=1, line=dict(color='black'))
+    figure.add_hline(y=60, line_dash="dot", row=1, col=1, line=dict(color='black'))
+    figure.add_hline(y=80, line_dash="dot", row=1, col=1, line=dict(color='black'))
+
+    figure.add_hline(y=-150, line_dash="dot", row=1, col=2, line=dict(color='black', width=1))
+    figure.add_hline(y=-10, line_dash="dot", row=1, col=2, line=dict(color='black', width=1))
+    figure.add_hline(y=0, row=1, col=2, line=dict(color='black', width=1))
+    figure.add_hline(y=10, line_dash="dot", row=1, col=2, line=dict(color='black', width=1))
+    figure.add_hline(y=20, line_dash="dot", row=1, col=2, line=dict(color='black', width=1))
+    figure.add_hline(y=30, line_dash="dot", row=1, col=2, line=dict(color='black', width=1))
+
+    figure.update_layout(legend=dict(x=0.45, y=1))
+    figure.update_layout(paper_bgcolor='#FFFFFF')
+
+    figure.update_layout(
+        legend_tracegroupgap = 20
+    )
+
+    figure.update_layout(plot_bgcolor="#FFFFFF")
+
+    figure.update_layout(yaxis=dict(tickformat=''))
+    figure.update_yaxes(ticksuffix='%')
+
+    figure.update_layout(
+        xaxis = dict(
+            tickmode = 'linear',
+            tick0 = 2011,
+            dtick = 1
+        ),
+        xaxis2 = dict(
+            tickmode = 'linear',
+            tick0 = 2011,
+            dtick = 1
+        ),
+        yaxis2 = dict(
+            tickmode = 'array',
+            tickvals = [-150, -10, 0, 10, 20, 30]
+    ),
+    height=700)
+
+    figure.update_layout(
+        yaxis = dict(
+            tickmode = 'array',
+            tickvals = [20, 40, 60, 80, 100],
+            ticktext = [20, 40, 60, 80, 100]
+        )
+    )
+    return figure
 
 ### Many Ratings Part ###
 
@@ -334,13 +413,71 @@ html_structure = [
         ]),
 
         html.H2(children='''
-            Part 1: Empty Profiles
+            Part 1: Users with one rating theory
         '''),
+
+        html.P([
+            'At first, we thought about our personal experience on social media. A lot of suspicious account on sites like Instagram have low activities. ' + 
+            'We thought it has to do with the detection of suspicious actives. If you have a lot of activity, it is easier to find patterns in the usage. ' +
+            'Our guess was that the hosts of the websites already monitor the activity of each user and ban those suspicious users themselves.', html.Br(), html.Br(),
+            'With that logic, we created our first theory. Our theory was: "Users which rated only one movie are manly bots".', html.Br(), html.Br(),
+            'To prove this theory, our goal was to analyzed all the data of users with one rating.', html.Br(),
+            'At first, we filtered out all the ratings, which came from users with only one rating. We were surprised by the result. Of the over 27 Million ratings in total, ' +
+            'only 5\'620 of ratings came from users which only left one rating. This means in the worst case scenario, only 0.02% of the ratings on movieLens could potentially be ' +
+            'from bot activity after our theory.', html.Br(),
+            'This result already made us skeptic and there were two options on why there were so few ratings from users with only one rating. Firstly, our theory turns out to be true, ' +
+            'and the site could have a low amount of bots. This would mean that the bot activity on the site movieLens doesn\'t have a profound impact on the ratings, ' +
+            'which would be a great conclusion. Secondly, it could mean that our theory was completely wrong and there is no correlation between accounts with only one rating and bot activity.', html.Br(),
+            'So the next step to prove or disprove our theory, we looked deeper into the data and compared the rating scores of the ratings from the users with one rating ' +
+            'to the users with multiple ratings. We expected to find more ratings at both ends of the spectrum, and fewer ratings in the middle of the spectrum for ratings ' +
+            'from users with only one rating. The reason behind that logic would be, that the incentive to create botted ratings would be to push the movie you have some ' +
+            'kind of relation to up for your personal gain or to push other competing movies down to look better in comparison.', html.Br(),
+            'To compare those two metrics, we have decided to make a horizontal stacked bar chart for each class. On the x-axis there are the percentage of each rating group ' +
+            'and on the y axes are the two categories "user with only one rating" and "user with multiple ratings".  This gives us an interesting insight into the data.', html.Br()
+        ]),
 
 
         html.Div(id='div_horizontal_barchart', className='viz', children=[
-            dcc.Graph(figure=fig_horizontal_barchart,
+            dcc.Graph(figure=build_horizontal_stacked_barchart(),
             id='horizontal_barchart')
+        ]),
+
+        html.P([
+           'We can clearly see that there is a strong deviation for the score 5.0 and 0.5. The probability of a 5.0 rating is more than double for the users with only one rating, ' +
+           'then there is the probability of 5.0 rating for the users with multiple ratings. On the other end of the spectrum, the 0.5 ratings are less conclusive. ' +
+           'The probability is nearly double for the ratings from users with one rating compared to the ratings from users with multiple ratings, ' +
+           'but the probability for 0.5 ratings are in both cases low. But in both cases it is important to see that the dataset of the ratings from users with one rating ' +
+           'was only 0.2% compared to users with multiple ratings, which are the other 99.8%. Because of that difference, the deviation in the ratings from users with only one account ' +
+           'is not significant.', html.Br(), html.Br(),
+           'The previous graph definitively gave us interesting insights, but it wasn\'t conclusive enough to neither prove nor disprove our theory. Because of that, ' +
+           'we took further investigation into the timeline of when those ratings were submitted. As we thought, botted ratings and manipulation is a more recent activity that maybe started ' +
+           '5 to 10 years ago. To get prove about our thought, we searched for  proof.  We looked into google trends, which collects data about how many searches in Google have the given search term. ' +
+           'We have tried different terms and got the best data with the search term "fake rating". Obviously, this term is wide and is not limited to the website movieLens ' +
+           'and is neither limited to movie ratings, but it was the narrowest term that had enough data to show a trend. The data from Google trends started at 2004, ' +
+           'but the values before August 2010 are not conclusive enough because there are a lot of short term spikes in single months where the month before and after goes to 0. ' +
+           'We decided to show the trend in a bar chart grouped by years, so we took the year from 2011 to 2017 which is the last year the movieLens data ranges from the first ' +
+           'day to the last of the year.', html.Br(),
+           'Grouping it by years, mitigates the variations which it has from the small size of the dataset.', html.Br(), html.Br(),
+           'In addition to the Google trends data, we looked into the growth of the ratings from users with only one rating. To reduce the complexity of the graph, we decided to plot ' +
+           'the difference between the yearly growth in percentage of ratings from users with only one rating, subtracted by the yearly growth of all ratings.', html.Br(), html.Br()
+        ]),
+
+        html.Div(id='div_columnLineTimlineChart_and_BarChart', className='viz', children=[
+            dcc.Graph(figure=build_columnLineTimlineChart_and_BarChart(),
+            id='columnLineTimlineChart_and_BarChart')
+        ]),
+
+        html.P([
+            'Looking at the first graph that compares the amount of ratings from users with only one rating, there is a clear correlation between the rise in 2015 of search traffic for ' +
+            'the term "fake rating" and the growth of those ratings. These gave us a lot of hope, that we are on something. But the second graph that compares the growth of those ratings ' +
+            'to all ratings tells a complete other story. 2015 was by far the worst year in growth of those ratings compared to all ratings. The ratings of users with only one rating, ' +
+            'like shown on the left graph, grew that year, but all ratings outgrew them by over 150%. This means that the ration of all ratings to ratings from users with only rating ' +
+            'declined in 2015 and 2016.', html.Br(), html.Br(),
+            'To conclude our research, the theory: "Users which rated only one movie are manly bots" was disproven. We have looked into all metrics that were given to us and there ' +
+            'were no significant deviation on patterns in the data, that proved our theory. The score was on average better but not in a significant way and all ratings from users ' +
+            'with only one rating was only made 0.02% of all ratings. Furthermore, there was no significant growth over the year and the only outlier in our analysis was a decline of growth ' +
+            'of those ratings compared to the growth of all ratings in 2015.', html.Br(),
+            'This means that there is no indication, that users with only one rating on the site movieLens are non humanly generated activity.'
         ]),
 
         html.H2(children='''
