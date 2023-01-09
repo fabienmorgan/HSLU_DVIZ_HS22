@@ -451,7 +451,7 @@ html_structure = [
            'is not significant.', html.Br(), html.Br(),
            'The previous graph definitively gave us interesting insights, but it wasn\'t conclusive enough to neither prove nor disprove our theory. Because of that, ' +
            'we took further investigation into the timeline of when those ratings were submitted. As we thought, botted ratings and manipulation is a more recent activity that maybe started ' +
-           '5 to 10 years ago. To get prove about our thought, we searched for  proof.  We looked into google trends, which collects data about how many searches in Google have the given search term. ' +
+           '5 to 10 years ago. To get prove about our thought, we searched for  proof.  We looked into google trends [1], which collects data about how many searches in Google have the given search term. ' +
            'We have tried different terms and got the best data with the search term "fake rating". Obviously, this term is wide and is not limited to the website movieLens ' +
            'and is neither limited to movie ratings, but it was the narrowest term that had enough data to show a trend. The data from Google trends started at 2004, ' +
            'but the values before August 2010 are not conclusive enough because there are a lot of short term spikes in single months where the month before and after goes to 0. ' +
@@ -488,7 +488,7 @@ html_structure = [
 
     'It is not uncommon to have very enthusiastic users. There will always be a small fraction of people with significantly more interactions than the average person. However, we do have some users with interesting rating activity.',html.Br(),html.Br(),
 
-    'The most active user has rated over 23\'000 movies in less than 3 years. We don\'t want to be judgmental, but this is a bit too much, even for a very enthusiastic movie connoisseur. The average movie length is around 90 minutes. [1] Under the assumption that this user was legit and watched all movies in his 3-year rating period, he would have spent about 32 hours a day watching movies.',html.Br(),html.Br(),
+    'The most active user has rated over 23\'000 movies in less than 3 years. We don\'t want to be judgmental, but this is a bit too much, even for a very enthusiastic movie connoisseur. The average movie length is around 90 minutes. [2] Under the assumption that this user was legit and watched all movies in his 3-year rating period, he would have spent about 32 hours a day watching movies.',html.Br(),html.Br(),
 
     'Unlike detecting suspect activity in empty profiles, we have a lot more data to work with here. This allows us to get an insight into the rating patterns of individual users.',html.Br(),html.Br(),
 
@@ -575,7 +575,8 @@ html_structure = [
 
         html.Div(className='citation', children=[
             html.P([
-            '[1] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),html.Br(), 
+            '[1] Google Trends for term "fake rating" - https://trends.google.com/trends/explore?date=all&q=fake%20rating', html.Br(),    
+            '[2] Average Movie Length - https://towardsdatascience.com/are-new-movies-longer-than-they-were-10hh20-50-year-ago-a35356b2ca5b',html.Br(),
         ]),
         ]),
 
