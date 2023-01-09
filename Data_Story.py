@@ -500,11 +500,11 @@ html_structure = [
 
         html.P([
 
-    'Our hypothesis is, that (1) Rating Bursts and (2) Unnatural Distributions are the main indicators for bot activity. We searched for a user to showcase this pattern. This example shows a data burst of user 172357 with a duration of about 2 hours with the corresponding histogram. The burst consists of 1005 ratings.',html.Br(),html.Br(),
+    'Our hypothesis for \'busy users\' is, that (1) Rating Bursts and (2) Unnatural Distributions are the main indicators for bot activity. We searched for a user to showcase this pattern. This example shows a data burst of user 172357 with a duration of about 2 hours with the corresponding histogram. The burst consists of 1005 ratings.',html.Br(),html.Br(),
 
         ]),
 
-        html.Div(id='div_plot_indicators', className='viz', children=[
+        html.Div(id='div_plot_indicators', className='viz_part2', children=[
             dcc.Graph(figure=plot_indicators(),
             id='plot_indicators')
         ]),
@@ -528,7 +528,7 @@ html_structure = [
         ]),
 
 
-        html.Div(id='div_plot_strip_scatter_134596', className='viz', children=[
+        html.Div(id='div_plot_strip_scatter_134596', className='viz_part2', children=[
             dcc.Graph(figure=plot_strip_scatter(134596,['2009-01-01','2019-01-01']),
             id='plot_strip_scatter_134596')
         ]),
@@ -540,7 +540,7 @@ html_structure = [
     
         ]),
 
-        html.Div(id='div_plot_strip_scatter_123100', className='viz', children=[
+        html.Div(id='div_plot_strip_scatter_123100', className='viz_part2', children=[
             dcc.Graph(figure=plot_strip_scatter(123100,['2015-07-01','2019-01-01']),
             id='plot_strip_scatter_123100')
         ]),
@@ -555,7 +555,7 @@ html_structure = [
     'We created a histogram of the timestamps. As expected, there is no anomaly in minutes and seconds. Ratings are evenly distributed over minutes and seconds. However, the hours tell a different story. There is a distinct pattern of activity over the day. There are even some resting hours with no activity at all. We decided to compare this histogram over years. There was no need for normalization since all selected years had similar value ranges. There is still a very visible correlation between favorite rating hours over years.', html.Br(),html.Br(),
         ]),
 
-        html.Div(id='div_plot_freq_polygon', className='viz', children=[
+        html.Div(id='div_plot_freq_polygon', className='viz_part2', children=[
             dcc.Graph(figure=plot_freq_polygon(134596,2011,2013),
             id='plot_freq_polygon')
         ]),

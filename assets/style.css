@@ -1,7 +1,7 @@
-#center_content {
+h1, h2, h3, h4, h5, h6, p {
     margin-left: auto;
     margin-right: auto;
-    width: 800px;
+    width: 900px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -16,9 +16,22 @@ p {
 
 .viz {
     text-align: center;
-    display: inline-block;
-    margin: 0 auto;
+    display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 1100px;
 }
+
+.viz_part2 {
+    text-align: center;
+    display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
 
 .citation p{
     font-size: 10pt;
