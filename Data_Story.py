@@ -417,14 +417,14 @@ html_structure = [
         '''),
 
         html.P([
-            'At first, we thought about our personal experience on social media. A lot of suspicious account on sites like Instagram have low activities. ' + 
-            'We thought it has to do with the detection of suspicious actives. If you have a lot of activity, it is easier to find patterns in the usage. ' +
+            'At first, we thought about our personal experience on social media. A lot of suspicious accounts on sites like Instagram have low activities. ' + 
+            'We thought it has to do with the detection of suspicious activities. If you have a lot of activity, it is easier to find patterns in the usage. ' +
             'Our guess was that the hosts of the websites already monitor the activity of each user and ban those suspicious users themselves.', html.Br(), html.Br(),
             'With that logic, we created our first theory. Our theory was: "Users which rated only one movie are manly bots".', html.Br(), html.Br(),
-            'To prove this theory, our goal was to analyzed all the data of users with one rating.', html.Br(),
-            'At first, we filtered out all the ratings, which came from users with only one rating. We were surprised by the result. Of the over 27 Million ratings in total, ' +
+            'To prove this theory, our goal was to analyze all the data of users with one rating.', html.Br(),
+            'At first, we filtered out all the ratings, which came from users with only one rating. We were surprised by the result. Of the over 27 million ratings in total, ' +
             'only 5\'620 of ratings came from users which only left one rating. This means in the worst case scenario, only 0.02% of the ratings on movieLens could potentially be ' +
-            'from bot activity after our theory.', html.Br(),
+            'from bot activity according to our theory.', html.Br(),
             'This result already made us skeptic and there were two options on why there were so few ratings from users with only one rating. Firstly, our theory turns out to be true, ' +
             'and the site could have a low amount of bots. This would mean that the bot activity on the site movieLens doesn\'t have a profound impact on the ratings, ' +
             'which would be a great conclusion. Secondly, it could mean that our theory was completely wrong and there is no correlation between accounts with only one rating and bot activity.', html.Br(),
@@ -457,7 +457,7 @@ html_structure = [
            'but the values before August 2010 are not conclusive enough because there are a lot of short term spikes in single months where the month before and after goes to 0. ' +
            'We decided to show the trend in a bar chart grouped by years, so we took the year from 2011 to 2017 which is the last year the movieLens data ranges from the first ' +
            'day to the last of the year.', html.Br(),
-           'Grouping it by years, mitigates the variations which it has from the small size of the dataset.', html.Br(), html.Br(),
+           'Grouping it by years mitigates the variations which it has from the small size of the dataset.', html.Br(), html.Br(),
            'In addition to the Google trends data, we looked into the growth of the ratings from users with only one rating. To reduce the complexity of the graph, we decided to plot ' +
            'the difference between the yearly growth in percentage of ratings from users with only one rating, subtracted by the yearly growth of all ratings.', html.Br(), html.Br()
         ]),
@@ -492,7 +492,7 @@ html_structure = [
 
     'Unlike detecting suspect activity in empty profiles, we have a lot more data to work with here. This allows us to get an insight into the rating patterns of individual users.',html.Br(),html.Br(),
 
-    'For most of the Top 20 most active users, there are obvious signs indicating bot activity. One phenomenon a lot of them share is \'Rating Bursts\', short timeframes with hundreds of ratings in minutes. Another common pattern is a very even, unnatural distribution of ratings.',html.Br(),html.Br(),
+    'For most of the Top 20 most active users, there are obvious signs indicating bot activity. One phenomenon a lot of them share is \'Rating Bursts\', short timeframes with hundreds of ratings in minutes.',html.Br(),html.Br(),
 
     'We are more interested in the ones who deviate from obvious bot patterns - heavy users with seemingly legitimate rating activity.',html.Br(),html.Br(),
 
@@ -565,13 +565,22 @@ html_structure = [
 
     'In Conclusion, we found no evidence to justify doubt in the legitimacy of User 134596. If this User actually turns out to be a bot, we can only admire the creators dedication and effort to run this account for over ten years. Of course, there are still more sophisticated ways to detect irregularities we haven\'t covered yet. In summary, our approach worked well to identify anomalies for most busy user accounts.',html.Br(),html.Br(),
     
-    'Most of the users with the most ratings showed clear signs of bot activity in the form of Rating Bursts very similar to the one shown for User 123100. With hundreds of ratings per minute, it is safe to assume that they weren\'t manually entered by a human. Despite our initial assumption that the histogram would be a good indicator of bot activity, we found that this is not the case.',html.Br(),html.Br(),
+    'Most of the users with the most ratings showed clear signs of bot activity in the form of Rating Bursts very similar to the one shown for User 123100. With hundreds of ratings per minute, it is safe to assume that they weren\'t manually entered by a human. Despite our initial assumption that the rating score distribution would be a reliable indicator of bot activity, we found that this is not the case.',html.Br(),html.Br(),
 
         ]),
 
         html.H2(children='''
             Main Conclusion
         '''),
+
+        html.P([
+    'When we started with this project, we assumed that bot activity would share some similarities in general. In our personal experience, we have seen a lot of malicious activity on platforms like Instagram with blank profiles. On the other hand, there are also bot profiles with high activity. Take crypto scam bots in the comment section of YouTube or Twitter for example.',html.Br(),html.Br(),
+
+    'After analyzing the rating data for MovieLens we conclude, that these initial assumptions do not match what we have found. Blank profiles are much less significant than we anticipated. We haven\'t found any indications for bot activity. Regarding the steep increase of bot popularity in the past few years, this trend is not evident in our data.',html.Br(),html.Br(),
+
+    'We suspected bot activity among users with many ratings (\'busy users\') just because of the rating number alone. It was easier to identify individual patterns here just because of the much larger amount of data. While Rating Bursts seemed like a reliable indicator for bot activity, we found that the rating score distribution was not as meaningful as we expected at first. It is safe to say that most of the Top 10 Busy Users are not human because of Rating Bursts. However, there are also a few exceptions like User 134596, for which we couldn\'t find any anomalous indications.',html.Br(),html.Br(),    
+
+        ]),
 
         html.Div(className='citation', children=[
             html.P([
