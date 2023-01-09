@@ -419,14 +419,14 @@ html_structure = [
             'There is no doubt that our consumer behavior changed drastically over the last decade. Let it be for restaurants, movie theaters or online shops. ' +
             'One factor that has significantly impacted decision-making for many consumers is the use of online reviews. It is undeniable that online reviews play ' +
             'a significant role in the purchasing habits of many people. Given the high importance of online ratings, it doesn\'t come as a surprise that they are ' +
-            'an attractive target for manipulation. ', html.Br(),
+            'an attractive target for manipulation. ', html.Br(), html.Br(),
             'We have chosen a Dataset with Ratings for Movies. Public reviews and critiques of movies have existed long before the Information Age. However, Community ' +
             'Ratings on pages like IMDB or TMDB allow everyone with an internet connection to rate movies. Rating Platforms allow users to decide in a matter of seconds ' +
-            'if they want to watch a movie or not.', html.Br(),
-            'Our main goal is to search for malicious rating activities for movies. If they exist, we want to analyze their characteristics and find potential motivations.', html.Br(),
+            'if they want to watch a movie or not.', html.Br(), html.Br(),
+            'Our main goal is to search for malicious rating activities for movies. If they exist, we want to analyze their characteristics and find potential motivations.', html.Br(), html.Br(),
             'To analyze this suspicious non humanly generated activity, so-called bot rating activities, we used a dataset from a site called movieLens. This website suggests ' +
-            'movies to its users. It has a feature which allows users to rate the movies they have watched.', html.Br(),
-            'The dataset contains all their movies, ratings and many more information. We focused us most on the rating data to find those bot activities. ', html.Br(),
+            'movies to its users. It has a feature which allows users to rate the movies they have watched.', html.Br(), html.Br(),
+            'The dataset contains all their movies, ratings and many more information. We focused us most on the rating data to find those bot activities. ', html.Br(), html.Br(),
             'The rating data contains the user ID, the score of the rating, the timestamp of when the rating was submitted and which movie the rating belongs to. '+
             'Each user of movieLens can rate a movie with a score between 0.5 and 5.0 in steps of 0.5 points. This means that each user can rate a movie between a ' +
             'range of 10 scores.', html.Br(), html.Br()
